@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-`jetbrains_type` is a personal extension distributed through a private GitHub repository. It includes or adapts work from the projects below. Their licenses continue to apply to the corresponding files.
+`jetbrains_type` is a personal extension distributed through a GitHub repository. It includes or adapts work from the projects below. Their licenses continue to apply to the corresponding files.
 
 ## File icon assets
 
@@ -92,7 +92,7 @@ The full ranking and comparison are in `docs/UI_PLUGIN_RESEARCH.md`.
 
 ## Trademarks
 
-JetBrains, IntelliJ IDEA, WebStorm, PyCharm, GoLand, and related names and logos are trademarks or registered trademarks of JetBrains s.r.o. This project is not affiliated with, endorsed by, or sponsored by JetBrains. It is a personal theme/keymap integration distributed through a private GitHub repository.
+JetBrains, IntelliJ IDEA, WebStorm, PyCharm, GoLand, and related names and logos are trademarks or registered trademarks of JetBrains s.r.o. This project is not affiliated with, endorsed by, or sponsored by JetBrains. It is a personal theme/keymap integration distributed through a GitHub repository.
 
 ## Redistribution
 

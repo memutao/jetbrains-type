@@ -5,7 +5,7 @@
 - **扩展 ID**：`mutao.jetbrains-type`
 - **目录名**：`jetbrains_type`
 - **版本**：`0.4.0`
-- **仓库**：https://github.com/memutao/jetbrains-type（private）
+- **仓库**：https://github.com/memutao/jetbrains-type
 - **范围**：源码托管在 GitHub，不发布到 Marketplace / Open VSX。
 
 效果预览：`docs/preview.png`。Top 10 插件调研：`docs/UI_PLUGIN_RESEARCH.md`。
