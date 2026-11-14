@@ -1,0 +1,695 @@
+{
+  "name": "jetbrains-type",
+  "displayName": "JetBrains Type",
+  "description": "VS Code / Cursor 的 JetBrains New UI 深色整合包：New UI 配色、JetBrains New UI 活动栏/文件图标、IDEA 符号图标、IntelliJ 快捷键与可选 UI 设置。",
+  "version": "0.4.0",
+  "publisher": "mutao",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/memutao/jetbrains-type.git"
+  },
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#2B2B2B",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes",
+    "Keymaps"
+  ],
+  "keywords": [
+    "jetbrains",
+    "intellij",
+    "new ui",
+    "theme",
+    "keymap",
+    "icons",
+    "font",
+    "ligatures"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "themes": [
+      {
+        "label": "JetBrains Type New UI Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/new-ui-dark-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "jetbrains-type-file-icons",
+        "label": "JetBrains Type File Icons",
+        "path": "./icons/jetbrains-type-icon-theme.json"
+      }
+    ],
+    "productIconThemes": [
+      {
+        "id": "jetbrains-type-idea-icons",
+        "label": "JetBrains Type UI Icons",
+        "path": "./product-icons/jetbrains-type-product-icon-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "jetbrainsType.applyLook",
+        "title": "JetBrains Type: 应用外观（主题 + 图标）",
+        "shortTitle": "应用外观"
+      },
+      {
+        "command": "jetbrainsType.revertLook",
+        "title": "JetBrains Type: 恢复应用前的外观"
+      },
+      {
+        "command": "jetbrainsType.openKeybindings",
+        "title": "JetBrains Type: 打开快捷键设置"
+      },
+      {
+        "command": "jetbrainsType.showCheatSheet",
+        "title": "JetBrains Type: 快捷键速查表"
+      },
+      {
+        "command": "jetbrainsType.toggleKeymap",
+        "title": "JetBrains Type: 启用 / 关闭 JetBrains 快捷键"
+      },
+      {
+        "command": "jetbrainsType.applyUiSettings",
+        "title": "JetBrains Type: 应用 JetBrains 风格界面设置"
+      },
+      {
+        "command": "jetbrainsType.revertUiSettings",
+        "title": "JetBrains Type: 恢复界面设置"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+shift+a",
+        "mac": "shift+cmd+a",
+        "command": "workbench.action.showCommands",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+alt+s",
+        "mac": "cmd+,",
+        "command": "workbench.action.openGlobalSettings",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+`",
+        "mac": "ctrl+`",
+        "command": "workbench.action.selectTheme",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+s",
+        "mac": "cmd+s",
+        "command": "workbench.action.files.saveAll",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+f4",
+        "mac": "cmd+w",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+shift+f12",
+        "mac": "cmd+shift+f12",
+        "command": "workbench.action.toggleMaximizeEditorGroup",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "f11",
+        "mac": "ctrl+cmd+f",
+        "command": "workbench.action.toggleFullScreen",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+e",
+        "mac": "cmd+e",
+        "command": "workbench.action.openRecent",
+        "when": "config.jetbrainsType.keymapEnabled && (!inQuickOpen)"
+      },
+      {
+        "key": "ctrl+tab",
+        "mac": "ctrl+tab",
+        "command": "workbench.action.quickOpenNavigateNext",
+        "when": "config.jetbrainsType.keymapEnabled && (inQuickOpen)"
+      },
+      {
+        "key": "ctrl+d",
+        "mac": "cmd+d",
+        "command": "editor.action.copyLinesDownAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+y",
+        "mac": "cmd+backspace",
+        "command": "editor.action.deleteLines",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "command": "lineBreakInsert",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "shift+enter",
+        "mac": "shift+enter",
+        "command": "editor.action.insertLineAfter",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+alt+enter",
+        "mac": "cmd+alt+enter",
+        "command": "editor.action.insertLineBefore",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "shift+ctrl+up",
+        "mac": "shift+alt+up",
+        "command": "editor.action.moveLinesUpAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "shift+ctrl+down",
+        "mac": "shift+alt+down",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+/",
+        "mac": "cmd+/",
+        "command": "editor.action.commentLine",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+shift+/",
+        "mac": "cmd+alt+/",
+        "command": "editor.action.blockComment",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+w",
+        "mac": "alt+up",
+        "command": "editor.action.smartSelect.grow",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+shift+w",
+        "mac": "alt+down",
+        "command": "editor.action.smartSelect.shrink",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+shift+alt+j",
+        "mac": "ctrl+cmd+g",
+        "command": "editor.action.selectHighlights",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "alt+j",
+        "mac": "ctrl+g",
+        "command": "editor.action.addSelectionToNextFindMatch",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "alt+shift+j",
+        "mac": "ctrl+shift+g",
+        "command": "cursorUndo",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+shift+j",
+        "mac": "cmd+shift+j",
+        "command": "editor.action.joinLines",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+-",
+        "mac": "cmd+-",
+        "command": "editor.fold",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+=",
+        "mac": "cmd+=",
+        "command": "editor.unfold",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+shift+-",
+        "mac": "cmd+shift+-",
+        "command": "editor.foldAll",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+shift+=",
+        "mac": "cmd+shift+=",
+        "command": "editor.unfoldAll",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "command": "editor.action.formatSelection",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasDocumentFormattingProvider && editorHasSelection && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "command": "editor.action.formatDocument",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasDocumentFormattingProvider && !editorHasSelection && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+alt+o",
+        "mac": "ctrl+alt+o",
+        "command": "editor.action.organizeImports",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "alt+enter",
+        "mac": "alt+enter",
+        "command": "editor.action.quickFix",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasCodeActionsProvider && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+p",
+        "mac": "cmd+p",
+        "command": "editor.action.triggerParameterHints",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasSignatureHelpProvider && editorTextFocus)"
+      },
+      {
+        "key": "ctrl+space",
+        "mac": "ctrl+space",
+        "command": "editor.action.triggerSuggest",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasCompletionItemProvider && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+q",
+        "mac": "f1",
+        "command": "editor.action.showHover",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+shift+i",
+        "mac": "cmd+y",
+        "command": "editor.action.previewDeclaration",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor)"
+      },
+      {
+        "key": "shift+f6",
+        "mac": "shift+f6",
+        "command": "editor.action.rename",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasRenameProvider && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "f2",
+        "mac": "f2",
+        "command": "editor.action.marker.next",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "shift+f2",
+        "mac": "shift+f2",
+        "command": "editor.action.marker.prev",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+f",
+        "mac": "cmd+f",
+        "command": "actions.find",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+r",
+        "mac": "cmd+r",
+        "command": "editor.action.startFindReplaceAction",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "command": "workbench.view.search",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "command": "workbench.action.replaceInFiles",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "f3",
+        "mac": "cmd+g",
+        "command": "editor.action.nextMatchFindAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "shift+f3",
+        "mac": "cmd+shift+g",
+        "command": "editor.action.previousMatchFindAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorFocus)"
+      },
+      {
+        "key": "ctrl+e",
+        "mac": "cmd+e",
+        "command": "workbench.action.quickOpenNavigateNext",
+        "when": "config.jetbrainsType.keymapEnabled && (inQuickOpen)"
+      },
+      {
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+o",
+        "command": "workbench.action.quickOpen",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+alt+shift+n",
+        "mac": "cmd+alt+o",
+        "command": "workbench.action.gotoSymbol",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+n",
+        "mac": "cmd+o",
+        "command": "workbench.action.showAllSymbols",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+f12",
+        "mac": "cmd+f12",
+        "command": "workbench.action.gotoSymbol",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+g",
+        "mac": "cmd+l",
+        "command": "workbench.action.gotoLine",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+b",
+        "mac": "cmd+b",
+        "command": "editor.action.goToDeclaration",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasDefinitionProvider && editorTextFocus)"
+      },
+      {
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b",
+        "command": "editor.action.goToImplementation",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor)"
+      },
+      {
+        "key": "ctrl+alt+left",
+        "mac": "cmd+[",
+        "command": "workbench.action.navigateBack",
+        "when": "config.jetbrainsType.keymapEnabled && (canNavigateBack)"
+      },
+      {
+        "key": "ctrl+alt+right",
+        "mac": "cmd+]",
+        "command": "workbench.action.navigateForward",
+        "when": "config.jetbrainsType.keymapEnabled && (canNavigateForward)"
+      },
+      {
+        "key": "ctrl+shift+backspace",
+        "mac": "cmd+shift+backspace",
+        "command": "workbench.action.navigateToLastEditLocation",
+        "when": "config.jetbrainsType.keymapEnabled && (canNavigateToLastEditLocation)"
+      },
+      {
+        "key": "ctrl+left",
+        "mac": "ctrl+left",
+        "command": "workbench.action.previousEditor",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "ctrl+right",
+        "mac": "ctrl+right",
+        "command": "workbench.action.nextEditor",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "shift+alt+tab",
+        "mac": "alt+tab",
+        "command": "workbench.action.focusPreviousGroup",
+        "when": "config.jetbrainsType.keymapEnabled && (multipleEditorGroups)"
+      },
+      {
+        "key": "alt+tab",
+        "mac": "alt+tab",
+        "command": "workbench.action.focusNextGroup",
+        "when": "config.jetbrainsType.keymapEnabled && (multipleEditorGroups)"
+      },
+      {
+        "key": "alt+f7",
+        "mac": "alt+f7",
+        "command": "editor.action.referenceSearch.trigger",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor)"
+      },
+      {
+        "key": "ctrl+alt+h",
+        "mac": "ctrl+alt+h",
+        "command": "editor.showCallHierarchy",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+alt+shift+t",
+        "mac": "ctrl+alt+shift+t",
+        "command": "editor.action.refactor",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasCodeActionsProvider && editorTextFocus && !editorReadonly)"
+      },
+      {
+        "key": "ctrl+alt+m",
+        "mac": "ctrl+alt+m",
+        "command": "editor.action.codeAction",
+        "when": "config.jetbrainsType.keymapEnabled && (editorHasCodeActionsProvider && editorTextFocus && !editorReadonly)",
+        "args": {
+          "kind": "refactor.extract"
+        }
+      },
+      {
+        "key": "ctrl+f9",
+        "mac": "cmd+f9",
+        "command": "workbench.action.tasks.build",
+        "when": "config.jetbrainsType.keymapEnabled"
+      },
+      {
+        "key": "shift+f10",
+        "mac": "ctrl+alt+r",
+        "command": "workbench.action.debug.start",
+        "when": "config.jetbrainsType.keymapEnabled && (!inDebugMode)"
+      },
+      {
+        "key": "shift+f9",
+        "mac": "ctrl+alt+d",
+        "command": "workbench.action.debug.start",
+        "when": "config.jetbrainsType.keymapEnabled && (!inDebugMode)"
+      },
+      {
+        "key": "ctrl+f2",
+        "mac": "cmd+f2",
+        "command": "workbench.action.debug.stop",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "f9",
+        "mac": "f9",
+        "command": "workbench.action.debug.continue",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "f8",
+        "mac": "f8",
+        "command": "workbench.action.debug.stepOver",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "f7",
+        "mac": "f7",
+        "command": "workbench.action.debug.stepInto",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "shift+f8",
+        "mac": "shift+f8",
+        "command": "workbench.action.debug.stepOut",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "alt+f9",
+        "mac": "alt+f9",
+        "command": "editor.debug.action.runToCursor",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode && editorTextFocus)"
+      },
+      {
+        "key": "alt+f8",
+        "mac": "alt+f8",
+        "command": "workbench.debug.action.toggleRepl",
+        "when": "config.jetbrainsType.keymapEnabled && (inDebugMode)"
+      },
+      {
+        "key": "ctrl+f8",
+        "mac": "cmd+f8",
+        "command": "editor.debug.action.toggleBreakpoint",
+        "when": "config.jetbrainsType.keymapEnabled && (editorTextFocus)"
+      },
+      {
+        "key": "ctrl+k",
+        "mac": "cmd+k",
+        "command": "git.commit",
+        "when": "config.jetbrainsType.keymapEnabled && (gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode)"
+      },
+      {
+        "key": "ctrl+shift+k",
+        "mac": "cmd+shift+k",
+        "command": "git.push",
+        "when": "config.jetbrainsType.keymapEnabled && (gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode)"
+      },
+      {
+        "key": "ctrl+t",
+        "mac": "cmd+t",
+        "command": "git.sync",
+        "when": "config.jetbrainsType.keymapEnabled && (gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode)"
+      },
+      {
+        "key": "alt+1",
+        "mac": "cmd+1",
+        "command": "workbench.view.explorer",
+        "when": "config.jetbrainsType.keymapEnabled && (!(sideBarFocus && activeViewlet == 'workbench.view.explorer'))"
+      },
+      {
+        "key": "alt+1",
+        "mac": "cmd+1",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "config.jetbrainsType.keymapEnabled && (sideBarFocus && activeViewlet == 'workbench.view.explorer')"
+      },
+      {
+        "key": "alt+3",
+        "mac": "cmd+3",
+        "command": "workbench.view.search",
+        "when": "config.jetbrainsType.keymapEnabled && (!(sideBarFocus && activeViewlet == 'workbench.view.search'))"
+      },
+      {
+        "key": "alt+3",
+        "mac": "cmd+3",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "config.jetbrainsType.keymapEnabled && (sideBarFocus && activeViewlet == 'workbench.view.search')"
+      },
+      {
+        "key": "alt+5",
+        "mac": "cmd+5",
+        "command": "workbench.view.debug",
+        "when": "config.jetbrainsType.keymapEnabled && (!(sideBarFocus && activeViewlet == 'workbench.view.debug'))"
+      },
+      {
+        "key": "alt+5",
+        "mac": "cmd+5",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "config.jetbrainsType.keymapEnabled && (sideBarFocus && activeViewlet == 'workbench.view.debug')"
+      },
+      {
+        "key": "alt+9",
+        "mac": "cmd+9",
+        "command": "workbench.view.scm",
+        "when": "config.jetbrainsType.keymapEnabled && (!(sideBarFocus && activeViewlet == 'workbench.view.scm'))"
+      },
+      {
+        "key": "alt+9",
+        "mac": "cmd+9",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "config.jetbrainsType.keymapEnabled && (sideBarFocus && activeViewlet == 'workbench.view.scm')"
+      },
+      {
+        "key": "alt+6",
+        "mac": "cmd+6",
+        "command": "workbench.actions.view.problems",
+        "when": "config.jetbrainsType.keymapEnabled && (!(panelFocus && activePanel == 'workbench.panel.markers'))"
+      },
+      {
+        "key": "alt+6",
+        "mac": "cmd+6",
+        "command": "workbench.action.closePanel",
+        "when": "config.jetbrainsType.keymapEnabled && (panelFocus && activePanel == 'workbench.panel.markers')"
+      },
+      {
+        "key": "alt+f12",
+        "mac": "alt+f12",
+        "command": "workbench.action.terminal.focus",
+        "when": "config.jetbrainsType.keymapEnabled && (!terminalFocus)"
+      },
+      {
+        "key": "alt+f12",
+        "mac": "alt+f12",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "config.jetbrainsType.keymapEnabled && (terminalFocus)"
+      },
+      {
+        "key": "shift+escape",
+        "mac": "shift+escape",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "config.jetbrainsType.keymapEnabled && (terminalFocus)"
+      },
+      {
+        "key": "shift+escape",
+        "mac": "shift+escape",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "config.jetbrainsType.keymapEnabled && (sideBarFocus)"
+      },
+      {
+        "key": "shift+escape",
+        "mac": "shift+escape",
+        "command": "workbench.action.closePanel",
+        "when": "config.jetbrainsType.keymapEnabled && (panelFocus)"
+      },
+      {
+        "key": "enter",
+        "mac": "enter",
+        "command": "list.select",
+        "when": "config.jetbrainsType.keymapEnabled && (explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder)"
+      },
+      {
+        "key": "shift+f6",
+        "mac": "shift+f6",
+        "command": "renameFile",
+        "when": "config.jetbrainsType.keymapEnabled && (explorerViewletVisible && filesExplorerFocus)"
+      },
+      {
+        "key": "f7",
+        "mac": "f7",
+        "command": "workbench.action.compareEditor.nextChange",
+        "when": "config.jetbrainsType.keymapEnabled && (textCompareEditorVisible)"
+      },
+      {
+        "key": "shift+f7",
+        "mac": "shift+f7",
+        "command": "workbench.action.compareEditor.previousChange",
+        "when": "config.jetbrainsType.keymapEnabled && (textCompareEditorVisible)"
+      }
+    ],
+    "configuration": {
+      "title": "JetBrains Type",
+      "properties": {
+        "jetbrainsType.keymapEnabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "启用内置的 IntelliJ / JetBrains 快捷键。关闭后立即恢复 VS Code 默认快捷键，无需卸载扩展。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "sync": "node scripts/sync-keybindings.js",
+    "validate": "node scripts/validate.js",
+    "test": "node --test test/extension.test.js",
+    "check": "npm run sync && npm run validate && npm test",
+    "package": "npx --yes @vscode/vsce package --no-dependencies"
+  }
+}

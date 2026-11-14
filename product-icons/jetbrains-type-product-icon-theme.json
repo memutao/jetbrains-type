@@ -1,0 +1,188 @@
+{
+  "fonts": [
+    {
+      "id": "jetbrains-type-idea-icons",
+      "src": [
+        {
+          "path": "./jetbrains-type-idea-icons.woff",
+          "format": "woff"
+        }
+      ],
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "id": "jetbrains-type-activity-icons",
+      "src": [
+        {
+          "path": "./jetbrains-type-activity-icons.woff",
+          "format": "woff"
+        }
+      ],
+      "weight": "normal",
+      "style": "normal"
+    }
+  ],
+  "iconDefinitions": {
+    "symbol-class": {
+      "fontCharacter": "\\E900",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-namespace": {
+      "fontCharacter": "\\E901",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-module": {
+      "fontCharacter": "\\E901",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-struct": {
+      "fontCharacter": "\\E902",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-structure": {
+      "fontCharacter": "\\E902",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-constant": {
+      "fontCharacter": "\\E903",
+      "fontColor": "#9876AA"
+    },
+    "symbol-enum": {
+      "fontCharacter": "\\E904",
+      "fontColor": "#9876AA"
+    },
+    "symbol-enum-member": {
+      "fontCharacter": "\\E904",
+      "fontColor": "#9876AA"
+    },
+    "symbol-field": {
+      "fontCharacter": "\\E905",
+      "fontColor": "#9876AA"
+    },
+    "symbol-function": {
+      "fontCharacter": "\\E906",
+      "fontColor": "#FFC66D"
+    },
+    "symbol-interface": {
+      "fontCharacter": "\\E907",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-method": {
+      "fontCharacter": "\\E908",
+      "fontColor": "#FFC66D"
+    },
+    "symbol-constructor": {
+      "fontCharacter": "\\E908",
+      "fontColor": "#FFC66D"
+    },
+    "symbol-operator": {
+      "fontCharacter": "\\E909",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-parameter": {
+      "fontCharacter": "\\E90A",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-property": {
+      "fontCharacter": "\\E90B",
+      "fontColor": "#9876AA"
+    },
+    "symbol-value": {
+      "fontCharacter": "\\E90C",
+      "fontColor": "#9876AA"
+    },
+    "symbol-variable": {
+      "fontCharacter": "\\E90D",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-snippet": {
+      "fontCharacter": "\\E90F",
+      "fontColor": "#FFC66D"
+    },
+    "symbol-type-parameter": {
+      "fontCharacter": "\\E910",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-text": {
+      "fontCharacter": "\\E911",
+      "fontColor": "#A9B7C6"
+    },
+    "symbol-package": {
+      "fontCharacter": "\\E912",
+      "fontColor": "#A9B7C6"
+    },
+    "file-submodule": {
+      "fontCharacter": "\\E913",
+      "fontColor": "#A9B7C6"
+    },
+    "project": {
+      "fontCharacter": "\\E913",
+      "fontColor": "#4EADE5"
+    },
+    "files": {
+      "fontCharacter": "\\E920",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "search": {
+      "fontCharacter": "\\E921",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "source-control": {
+      "fontCharacter": "\\E922",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-alt": {
+      "fontCharacter": "\\E923",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "extensions": {
+      "fontCharacter": "\\E924",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "account": {
+      "fontCharacter": "\\E925",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "settings-gear": {
+      "fontCharacter": "\\E926",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "comment-discussion": {
+      "fontCharacter": "\\E927",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "chat": {
+      "fontCharacter": "\\E927",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "explorer-view-icon": {
+      "fontCharacter": "\\E920",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "search-view-icon": {
+      "fontCharacter": "\\E921",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "source-control-view-icon": {
+      "fontCharacter": "\\E922",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "run-view-icon": {
+      "fontCharacter": "\\E923",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "extensions-view-icon": {
+      "fontCharacter": "\\E924",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "accounts-view-bar-icon": {
+      "fontCharacter": "\\E925",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "settings-view-bar-icon": {
+      "fontCharacter": "\\E926",
+      "fontId": "jetbrains-type-activity-icons"
+    }
+  }
+}

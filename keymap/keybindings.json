@@ -1,0 +1,825 @@
+[
+  {
+    "category": "通用",
+    "title": "查找操作",
+    "note": "JetBrains 的 Find Action",
+    "key": "ctrl+shift+a",
+    "mac": "shift+cmd+a",
+    "bindings": [
+      { "command": "workbench.action.showCommands" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "打开设置",
+    "key": "ctrl+alt+s",
+    "mac": "cmd+,",
+    "bindings": [
+      { "command": "workbench.action.openGlobalSettings" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "切换配色方案",
+    "key": "ctrl+`",
+    "mac": "ctrl+`",
+    "bindings": [
+      { "command": "workbench.action.selectTheme" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "全部保存",
+    "key": "ctrl+s",
+    "mac": "cmd+s",
+    "bindings": [
+      { "command": "workbench.action.files.saveAll" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "关闭当前编辑器",
+    "key": "ctrl+f4",
+    "mac": "cmd+w",
+    "bindings": [
+      { "command": "workbench.action.closeActiveEditor" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "最大化编辑器组",
+    "note": "再次按下还原；不是全屏",
+    "key": "ctrl+shift+f12",
+    "mac": "cmd+shift+f12",
+    "bindings": [
+      { "command": "workbench.action.toggleMaximizeEditorGroup" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "切换全屏",
+    "key": "f11",
+    "mac": "ctrl+cmd+f",
+    "bindings": [
+      { "command": "workbench.action.toggleFullScreen" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "最近文件",
+    "key": "ctrl+e",
+    "mac": "cmd+e",
+    "bindings": [
+      { "command": "workbench.action.openRecent", "when": "!inQuickOpen" }
+    ]
+  },
+  {
+    "category": "通用",
+    "title": "Quick Open 中切换候选",
+    "key": "ctrl+tab",
+    "mac": "ctrl+tab",
+    "bindings": [
+      { "command": "workbench.action.quickOpenNavigateNext", "when": "inQuickOpen" }
+    ]
+  },
+
+  {
+    "category": "编辑",
+    "title": "复制行或选区",
+    "key": "ctrl+d",
+    "mac": "cmd+d",
+    "bindings": [
+      { "command": "editor.action.copyLinesDownAction", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "删除行",
+    "key": "ctrl+y",
+    "mac": "cmd+backspace",
+    "bindings": [
+      { "command": "editor.action.deleteLines", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "智能换行",
+    "key": "ctrl+enter",
+    "mac": "cmd+enter",
+    "bindings": [
+      { "command": "lineBreakInsert", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "向下新建行",
+    "key": "shift+enter",
+    "mac": "shift+enter",
+    "bindings": [
+      { "command": "editor.action.insertLineAfter", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "向上新建行",
+    "key": "ctrl+alt+enter",
+    "mac": "cmd+alt+enter",
+    "bindings": [
+      { "command": "editor.action.insertLineBefore", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "上移行",
+    "key": "shift+ctrl+up",
+    "mac": "shift+alt+up",
+    "bindings": [
+      { "command": "editor.action.moveLinesUpAction", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "下移行",
+    "key": "shift+ctrl+down",
+    "mac": "shift+alt+down",
+    "bindings": [
+      { "command": "editor.action.moveLinesDownAction", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "行注释",
+    "key": "ctrl+/",
+    "mac": "cmd+/",
+    "bindings": [
+      { "command": "editor.action.commentLine", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "块注释",
+    "key": "ctrl+shift+/",
+    "mac": "cmd+alt+/",
+    "bindings": [
+      { "command": "editor.action.blockComment", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "扩展选区",
+    "key": "ctrl+w",
+    "mac": "alt+up",
+    "bindings": [
+      { "command": "editor.action.smartSelect.grow", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "缩小选区",
+    "key": "ctrl+shift+w",
+    "mac": "alt+down",
+    "bindings": [
+      { "command": "editor.action.smartSelect.shrink", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "选中所有出现",
+    "key": "ctrl+shift+alt+j",
+    "mac": "ctrl+cmd+g",
+    "bindings": [
+      { "command": "editor.action.selectHighlights", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "添加下一个出现",
+    "key": "alt+j",
+    "mac": "ctrl+g",
+    "bindings": [
+      { "command": "editor.action.addSelectionToNextFindMatch", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "取消上一个出现",
+    "key": "alt+shift+j",
+    "mac": "ctrl+shift+g",
+    "bindings": [
+      { "command": "cursorUndo", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "合并行",
+    "key": "ctrl+shift+j",
+    "mac": "cmd+shift+j",
+    "bindings": [
+      { "command": "editor.action.joinLines", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "折叠代码块",
+    "key": "ctrl+-",
+    "mac": "cmd+-",
+    "bindings": [
+      { "command": "editor.fold", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "展开代码块",
+    "key": "ctrl+=",
+    "mac": "cmd+=",
+    "bindings": [
+      { "command": "editor.unfold", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "全部折叠",
+    "key": "ctrl+shift+-",
+    "mac": "cmd+shift+-",
+    "bindings": [
+      { "command": "editor.foldAll", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "全部展开",
+    "key": "ctrl+shift+=",
+    "mac": "cmd+shift+=",
+    "bindings": [
+      { "command": "editor.unfoldAll", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "格式化代码",
+    "note": "有选区时只格式化选区",
+    "key": "ctrl+alt+l",
+    "mac": "cmd+alt+l",
+    "bindings": [
+      { "command": "editor.action.formatSelection", "when": "editorHasDocumentFormattingProvider && editorHasSelection && editorTextFocus && !editorReadonly" },
+      { "command": "editor.action.formatDocument", "when": "editorHasDocumentFormattingProvider && !editorHasSelection && editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "优化导入",
+    "key": "ctrl+alt+o",
+    "mac": "ctrl+alt+o",
+    "bindings": [
+      { "command": "editor.action.organizeImports", "when": "editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "上下文操作 / 快速修复",
+    "key": "alt+enter",
+    "mac": "alt+enter",
+    "bindings": [
+      { "command": "editor.action.quickFix", "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "参数信息",
+    "key": "ctrl+p",
+    "mac": "cmd+p",
+    "bindings": [
+      { "command": "editor.action.triggerParameterHints", "when": "editorHasSignatureHelpProvider && editorTextFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "基本补全",
+    "key": "ctrl+space",
+    "mac": "ctrl+space",
+    "bindings": [
+      { "command": "editor.action.triggerSuggest", "when": "editorHasCompletionItemProvider && editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "快速文档",
+    "note": "macOS 绑定 F1",
+    "key": "ctrl+q",
+    "mac": "f1",
+    "bindings": [
+      { "command": "editor.action.showHover", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "快速定义",
+    "key": "ctrl+shift+i",
+    "mac": "cmd+y",
+    "bindings": [
+      { "command": "editor.action.previewDeclaration", "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "重命名符号",
+    "key": "shift+f6",
+    "mac": "shift+f6",
+    "bindings": [
+      { "command": "editor.action.rename", "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "下一个问题",
+    "key": "f2",
+    "mac": "f2",
+    "bindings": [
+      { "command": "editor.action.marker.next", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "编辑",
+    "title": "上一个问题",
+    "key": "shift+f2",
+    "mac": "shift+f2",
+    "bindings": [
+      { "command": "editor.action.marker.prev", "when": "editorFocus" }
+    ]
+  },
+
+  {
+    "category": "搜索与替换",
+    "title": "查找",
+    "key": "ctrl+f",
+    "mac": "cmd+f",
+    "bindings": [
+      { "command": "actions.find" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "替换",
+    "key": "ctrl+r",
+    "mac": "cmd+r",
+    "bindings": [
+      { "command": "editor.action.startFindReplaceAction" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "在文件中查找",
+    "key": "ctrl+shift+f",
+    "mac": "cmd+shift+f",
+    "bindings": [
+      { "command": "workbench.view.search" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "在文件中替换",
+    "key": "ctrl+shift+r",
+    "mac": "cmd+shift+r",
+    "bindings": [
+      { "command": "workbench.action.replaceInFiles" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "查找下一个",
+    "key": "f3",
+    "mac": "cmd+g",
+    "bindings": [
+      { "command": "editor.action.nextMatchFindAction", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "查找上一个",
+    "key": "shift+f3",
+    "mac": "cmd+shift+g",
+    "bindings": [
+      { "command": "editor.action.previousMatchFindAction", "when": "editorFocus" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "Quick Open 中下一个",
+    "key": "ctrl+e",
+    "mac": "cmd+e",
+    "bindings": [
+      { "command": "workbench.action.quickOpenNavigateNext", "when": "inQuickOpen" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "转到文件",
+    "key": "ctrl+shift+n",
+    "mac": "cmd+shift+o",
+    "bindings": [
+      { "command": "workbench.action.quickOpen" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "转到符号",
+    "key": "ctrl+alt+shift+n",
+    "mac": "cmd+alt+o",
+    "bindings": [
+      { "command": "workbench.action.gotoSymbol" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "转到类",
+    "key": "ctrl+n",
+    "mac": "cmd+o",
+    "bindings": [
+      { "command": "workbench.action.showAllSymbols" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "文件结构",
+    "key": "ctrl+f12",
+    "mac": "cmd+f12",
+    "bindings": [
+      { "command": "workbench.action.gotoSymbol", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "搜索与替换",
+    "title": "转到行",
+    "key": "ctrl+g",
+    "mac": "cmd+l",
+    "bindings": [
+      { "command": "workbench.action.gotoLine" }
+    ]
+  },
+
+  {
+    "category": "导航",
+    "title": "转到声明",
+    "key": "ctrl+b",
+    "mac": "cmd+b",
+    "bindings": [
+      { "command": "editor.action.goToDeclaration", "when": "editorHasDefinitionProvider && editorTextFocus" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "转到实现",
+    "key": "ctrl+alt+b",
+    "mac": "cmd+alt+b",
+    "bindings": [
+      { "command": "editor.action.goToImplementation", "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "后退",
+    "key": "ctrl+alt+left",
+    "mac": "cmd+[",
+    "bindings": [
+      { "command": "workbench.action.navigateBack", "when": "canNavigateBack" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "前进",
+    "key": "ctrl+alt+right",
+    "mac": "cmd+]",
+    "bindings": [
+      { "command": "workbench.action.navigateForward", "when": "canNavigateForward" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "最近编辑位置",
+    "key": "ctrl+shift+backspace",
+    "mac": "cmd+shift+backspace",
+    "bindings": [
+      { "command": "workbench.action.navigateToLastEditLocation", "when": "canNavigateToLastEditLocation" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "上一个编辑器",
+    "key": "ctrl+left",
+    "mac": "ctrl+left",
+    "bindings": [
+      { "command": "workbench.action.previousEditor" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "下一个编辑器",
+    "key": "ctrl+right",
+    "mac": "ctrl+right",
+    "bindings": [
+      { "command": "workbench.action.nextEditor" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "上一个拆分编辑器组",
+    "key": "shift+alt+tab",
+    "mac": "alt+tab",
+    "bindings": [
+      { "command": "workbench.action.focusPreviousGroup", "when": "multipleEditorGroups" }
+    ]
+  },
+  {
+    "category": "导航",
+    "title": "下一个拆分编辑器组",
+    "key": "alt+tab",
+    "mac": "alt+tab",
+    "bindings": [
+      { "command": "workbench.action.focusNextGroup", "when": "multipleEditorGroups" }
+    ]
+  },
+
+  {
+    "category": "代码智能",
+    "title": "查找用法",
+    "key": "alt+f7",
+    "mac": "alt+f7",
+    "bindings": [
+      { "command": "editor.action.referenceSearch.trigger", "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor" }
+    ]
+  },
+  {
+    "category": "代码智能",
+    "title": "调用层次",
+    "key": "ctrl+alt+h",
+    "mac": "ctrl+alt+h",
+    "bindings": [
+      { "command": "editor.showCallHierarchy", "when": "editorTextFocus" }
+    ]
+  },
+  {
+    "category": "代码智能",
+    "title": "重构菜单",
+    "key": "ctrl+alt+shift+t",
+    "mac": "ctrl+alt+shift+t",
+    "bindings": [
+      { "command": "editor.action.refactor", "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly" }
+    ]
+  },
+  {
+    "category": "代码智能",
+    "title": "提取方法 / 变量",
+    "key": "ctrl+alt+m",
+    "mac": "ctrl+alt+m",
+    "bindings": [
+      { "command": "editor.action.codeAction", "args": { "kind": "refactor.extract" }, "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly" }
+    ]
+  },
+
+  {
+    "category": "构建与调试",
+    "title": "构建项目",
+    "key": "ctrl+f9",
+    "mac": "cmd+f9",
+    "bindings": [
+      { "command": "workbench.action.tasks.build" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "运行",
+    "note": "使用当前启动配置",
+    "key": "shift+f10",
+    "mac": "ctrl+alt+r",
+    "bindings": [
+      { "command": "workbench.action.debug.start", "when": "!inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "调试",
+    "key": "shift+f9",
+    "mac": "ctrl+alt+d",
+    "bindings": [
+      { "command": "workbench.action.debug.start", "when": "!inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "停止调试",
+    "key": "ctrl+f2",
+    "mac": "cmd+f2",
+    "bindings": [
+      { "command": "workbench.action.debug.stop", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "继续",
+    "key": "f9",
+    "mac": "f9",
+    "bindings": [
+      { "command": "workbench.action.debug.continue", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "单步跳过",
+    "key": "f8",
+    "mac": "f8",
+    "bindings": [
+      { "command": "workbench.action.debug.stepOver", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "单步进入",
+    "key": "f7",
+    "mac": "f7",
+    "bindings": [
+      { "command": "workbench.action.debug.stepInto", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "单步退出",
+    "key": "shift+f8",
+    "mac": "shift+f8",
+    "bindings": [
+      { "command": "workbench.action.debug.stepOut", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "运行到光标",
+    "key": "alt+f9",
+    "mac": "alt+f9",
+    "bindings": [
+      { "command": "editor.debug.action.runToCursor", "when": "inDebugMode && editorTextFocus" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "计算表达式",
+    "key": "alt+f8",
+    "mac": "alt+f8",
+    "bindings": [
+      { "command": "workbench.debug.action.toggleRepl", "when": "inDebugMode" }
+    ]
+  },
+  {
+    "category": "构建与调试",
+    "title": "切换断点",
+    "key": "ctrl+f8",
+    "mac": "cmd+f8",
+    "bindings": [
+      { "command": "editor.debug.action.toggleBreakpoint", "when": "editorTextFocus" }
+    ]
+  },
+
+  {
+    "category": "版本控制",
+    "title": "提交",
+    "note": "只提交已暂存的更改",
+    "key": "ctrl+k",
+    "mac": "cmd+k",
+    "bindings": [
+      { "command": "git.commit", "when": "gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode" }
+    ]
+  },
+  {
+    "category": "版本控制",
+    "title": "推送",
+    "key": "ctrl+shift+k",
+    "mac": "cmd+shift+k",
+    "bindings": [
+      { "command": "git.push", "when": "gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode" }
+    ]
+  },
+  {
+    "category": "版本控制",
+    "title": "更新项目",
+    "key": "ctrl+t",
+    "mac": "cmd+t",
+    "bindings": [
+      { "command": "git.sync", "when": "gitOpenRepositoryCount != 0 && !terminalFocus && !inDebugMode" }
+    ]
+  },
+
+  {
+    "category": "工具窗口",
+    "title": "项目视图",
+    "note": "聚焦时再按一次可隐藏",
+    "key": "alt+1",
+    "mac": "cmd+1",
+    "bindings": [
+      { "command": "workbench.view.explorer", "when": "!(sideBarFocus && activeViewlet == 'workbench.view.explorer')" },
+      { "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarFocus && activeViewlet == 'workbench.view.explorer'" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "搜索视图",
+    "note": "聚焦时再按一次可隐藏",
+    "key": "alt+3",
+    "mac": "cmd+3",
+    "bindings": [
+      { "command": "workbench.view.search", "when": "!(sideBarFocus && activeViewlet == 'workbench.view.search')" },
+      { "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarFocus && activeViewlet == 'workbench.view.search'" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "运行与调试视图",
+    "note": "聚焦时再按一次可隐藏",
+    "key": "alt+5",
+    "mac": "cmd+5",
+    "bindings": [
+      { "command": "workbench.view.debug", "when": "!(sideBarFocus && activeViewlet == 'workbench.view.debug')" },
+      { "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarFocus && activeViewlet == 'workbench.view.debug'" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "源代码管理视图",
+    "note": "聚焦时再按一次可隐藏",
+    "key": "alt+9",
+    "mac": "cmd+9",
+    "bindings": [
+      { "command": "workbench.view.scm", "when": "!(sideBarFocus && activeViewlet == 'workbench.view.scm')" },
+      { "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarFocus && activeViewlet == 'workbench.view.scm'" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "问题面板",
+    "note": "聚焦时再按一次可隐藏",
+    "key": "alt+6",
+    "mac": "cmd+6",
+    "bindings": [
+      { "command": "workbench.actions.view.problems", "when": "!(panelFocus && activePanel == 'workbench.panel.markers')" },
+      { "command": "workbench.action.closePanel", "when": "panelFocus && activePanel == 'workbench.panel.markers'" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "终端",
+    "note": "终端已聚焦时再按一次可隐藏",
+    "key": "alt+f12",
+    "mac": "alt+f12",
+    "bindings": [
+      { "command": "workbench.action.terminal.focus", "when": "!terminalFocus" },
+      { "command": "workbench.action.terminal.toggleTerminal", "when": "terminalFocus" }
+    ]
+  },
+  {
+    "category": "工具窗口",
+    "title": "隐藏当前工具窗口",
+    "note": "适用于终端、侧边栏和面板",
+    "key": "shift+escape",
+    "mac": "shift+escape",
+    "bindings": [
+      { "command": "workbench.action.terminal.toggleTerminal", "when": "terminalFocus" },
+      { "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarFocus" },
+      { "command": "workbench.action.closePanel", "when": "panelFocus" }
+    ]
+  },
+
+  {
+    "category": "资源管理器",
+    "title": "打开高亮文件",
+    "key": "enter",
+    "mac": "enter",
+    "bindings": [
+      { "command": "list.select", "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsFolder" }
+    ]
+  },
+  {
+    "category": "资源管理器",
+    "title": "重命名文件",
+    "key": "shift+f6",
+    "mac": "shift+f6",
+    "bindings": [
+      { "command": "renameFile", "when": "explorerViewletVisible && filesExplorerFocus" }
+    ]
+  },
+
+  {
+    "category": "差异比较",
+    "title": "下一个差异",
+    "key": "f7",
+    "mac": "f7",
+    "bindings": [
+      { "command": "workbench.action.compareEditor.nextChange", "when": "textCompareEditorVisible" }
+    ]
+  },
+  {
+    "category": "差异比较",
+    "title": "上一个差异",
+    "key": "shift+f7",
+    "mac": "shift+f7",
+    "bindings": [
+      { "command": "workbench.action.compareEditor.previousChange", "when": "textCompareEditorVisible" }
+    ]
+  }
+]
