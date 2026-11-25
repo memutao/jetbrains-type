@@ -164,10 +164,10 @@ async function revertLook(context) {
   try {
     await Promise.all([
       config.update('colorTheme', previous.colorTheme, vscode.ConfigurationTarget.Global),
-      config.update('iconTheme', previous.iconTheme ?? null, vscode.ConfigurationTarget.Global),
+      config.update('iconTheme', previous.iconTheme, vscode.ConfigurationTarget.Global),
       config.update(
         'productIconTheme',
-        previous.productIconTheme ?? null,
+        previous.productIconTheme,
         vscode.ConfigurationTarget.Global
       )
     ]);
@@ -195,14 +195,31 @@ async function toggleKeymap() {
   const config = typeConfig();
   const enabled = config.get(KEYMAP_SETTING, true);
   const inspected = config.inspect(KEYMAP_SETTING);
-  const hasWorkspaceValue =
-    inspected && inspected.workspaceValue !== undefined && vscode.workspace.workspaceFolders;
-  const target = hasWorkspaceValue
-    ? vscode.ConfigurationTarget.Workspace
-    : vscode.ConfigurationTarget.Global;
+  const target =
+    inspected?.workspaceValue !== undefined
+      ? vscode.ConfigurationTarget.Workspace
+      : vscode.ConfigurationTarget.Global;
+  const folderConfigs = [];
+
+  for (const folder of vscode.workspace.workspaceFolders ?? []) {
+    const folderConfig = vscode.workspace.getConfiguration('jetbrainsType', folder.uri);
+    const folderInspect = folderConfig.inspect(KEYMAP_SETTING);
+    if (folderInspect?.workspaceFolderValue !== undefined) {
+      folderConfigs.push(folderConfig);
+    }
+  }
 
   try {
     await config.update(KEYMAP_SETTING, !enabled, target);
+    await Promise.all(
+      folderConfigs.map((folderConfig) =>
+        folderConfig.update(
+          KEYMAP_SETTING,
+          !enabled,
+          vscode.ConfigurationTarget.WorkspaceFolder
+        )
+      )
+    );
   } catch (error) {
     vscode.window.showErrorMessage(
       `JetBrains Type：切换快捷键开关失败。${error.message || error}`

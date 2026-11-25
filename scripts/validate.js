@@ -65,7 +65,21 @@ check(exists(manifest.icon), 'package.json icon does not exist.');
 check(exists('README.md'), 'README.md is missing.');
 check(exists('LICENSE'), 'LICENSE is missing.');
 check(exists('KEYMAP.md'), 'KEYMAP.md is missing.');
+check(exists('CHANGELOG.md'), 'CHANGELOG.md is missing.');
+check(exists('THIRD_PARTY_NOTICES.md'), 'THIRD_PARTY_NOTICES.md is missing.');
 check(exists('.vscodeignore'), '.vscodeignore is missing.');
+check(
+  manifest.repository?.url === 'https://github.com/memutao/jetbrains-type.git',
+  'package.json repository URL is missing or unexpected.'
+);
+check(/^\d+\.\d+\.\d+$/.test(manifest.version || ''), 'package.json version must be semver.');
+
+const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+check(!readme.includes('/Users/'), 'README.md contains a local absolute path.');
+const ignoreFile = fs.readFileSync(path.join(root, '.vscodeignore'), 'utf8');
+for (const pattern of ['docs/**', 'product-icons/activity/**']) {
+  check(ignoreFile.includes(pattern), `.vscodeignore must exclude ${pattern}.`);
+}
 
 const expectedThemes = [
   {
@@ -178,7 +192,11 @@ if (productContribution) {
     for (const src of font.src || []) {
       check(Boolean(src.path), 'product icon theme font source has no path.');
       if (src.path) {
-        check(exists(path.join(base, src.path)), `product icon theme font is missing: ${src.path}`);
+        const fontPath = path.join(base, src.path);
+        check(exists(fontPath), `product icon theme font is missing: ${src.path}`);
+        if (exists(fontPath)) {
+          check(fs.statSync(path.join(root, fontPath)).size > 0, `product icon theme font is empty: ${src.path}`);
+        }
       }
     }
   }

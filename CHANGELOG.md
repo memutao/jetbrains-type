@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1 — 2026-11-25
+
+- 修复 `toggleKeymap` 忽略 `workspaceFolder` 覆盖的问题，并同步更新文件夹级设置。
+- 修复 `revertLook` 把缺失图标设置写成 `null` 的问题：现在保留 `null`，缺失值用 `undefined` 删除覆盖。
+- 新增 workspaceFolder 切换和 `null`/`undefined` 外观恢复测试；完整 UI 测试覆盖彩虹括号关闭。
+- 从 VSIX 排除 `docs/**` 与 `product-icons/activity/**`，减小安装包体积；README 文档链接改为 GitHub。
+- 校验脚本增加 README 本地路径、仓库 URL、版本格式、字体非空和 VSIX 排除项检查。
+
+
 ## 0.4.0 — 2026-11-14
 
 - 对齐本机 JetBrains 2025.3.5 New UI：补齐 VS Code 1.146 的 Chat、Inline Chat、Testing、SCM Graph 和编辑器注释/粘性滚动颜色。

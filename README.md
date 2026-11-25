@@ -4,11 +4,11 @@
 
 - **扩展 ID**：`mutao.jetbrains-type`
 - **目录名**：`jetbrains_type`
-- **版本**：`0.4.0`
+- **版本**：`0.4.1`
 - **仓库**：https://github.com/memutao/jetbrains-type
 - **范围**：源码托管在 GitHub，不发布到 Marketplace / Open VSX。
 
-效果预览：`docs/preview.png`。Top 10 插件调研：`docs/UI_PLUGIN_RESEARCH.md`。
+效果预览：[docs/preview.png](https://github.com/memutao/jetbrains-type/blob/main/docs/preview.png)。Top 10 插件调研：[UI_PLUGIN_RESEARCH.md](https://github.com/memutao/jetbrains-type/blob/main/docs/UI_PLUGIN_RESEARCH.md)。
 
 ## 包含什么
 
@@ -36,18 +36,18 @@ npm run package
 
 ### 安装 VSIX
 
-从 GitHub Releases 下载 `jetbrains-type-0.4.0.vsix`，或在源码目录构建后安装：
+从 GitHub Releases 下载 `jetbrains-type-0.4.1.vsix`，或在源码目录构建后安装：
 
 ```bash
 "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" \
-  --install-extension jetbrains-type-0.4.0.vsix --force
+  --install-extension jetbrains-type-0.4.1.vsix --force
 ```
 
 Cursor 同理：
 
 ```bash
 "/Applications/Cursor.app/Contents/Resources/app/bin/cursor" \
-  --install-extension jetbrains-type-0.4.0.vsix --force
+  --install-extension jetbrains-type-0.4.1.vsix --force
 ```
 
 安装后重载窗口。快捷键会立即参与按键解析，不需要额外激活。
@@ -209,7 +209,7 @@ editor.guides.bracketPairs           active
 | 9 | IntelliJ-ish Darcula Theme（csantiago132，MIT） | 57,403 | 对比度、终端/Peek 可读性 |
 | 10 | JetBrains IDEA Icons（Mostik，无明确许可证） | 48,552 | 仅参考 Java/Maven/Gradle 映射思路，不复制资源 |
 
-完整分析见 `docs/UI_PLUGIN_RESEARCH.md`。
+完整分析见 [UI_PLUGIN_RESEARCH.md](https://github.com/memutao/jetbrains-type/blob/main/docs/UI_PLUGIN_RESEARCH.md)。
 
 ## 目录结构
 
@@ -272,7 +272,7 @@ npm run package
 
 **为什么只有一个主题？**
 
-0.4.0 继续对齐 JetBrains New UI：活动栏优先使用官方 SVG，并补齐 VS Code 1.146 的 Chat、Inline Chat、Testing、SCM Graph 等颜色。若要浅色主题需要单独补一套 New UI Light 配色与文件图标。
+0.4.1 继续对齐 JetBrains New UI：活动栏优先使用官方 SVG，并补齐 VS Code 1.146 的 Chat、Inline Chat、Testing、SCM Graph 等颜色。若要浅色主题需要单独补一套 New UI Light 配色与文件图标。
 
 **活动栏图标没有变化？**
 

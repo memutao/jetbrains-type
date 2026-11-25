@@ -61,6 +61,7 @@ function createMock() {
     'explorer.compactFolders': true
   };
   const workspaceOverrides = new Map();
+  const workspaceFolderOverrides = new Map();
   const updates = [];
   const messages = [];
   const errors = [];
@@ -93,8 +94,16 @@ function createMock() {
     }
   });
 
-  const makeConfig = (section) => ({
+  const makeConfig = (section, scope) => {
+    const scopeKey = scope?.fsPath ?? scope;
+    return {
     get(key, fallback) {
+      const workspaceFolderValue = scopeKey
+        ? workspaceFolderOverrides.get(`${scopeKey}:${section}.${key}`)
+        : undefined;
+      if (workspaceFolderValue !== undefined) return workspaceFolderValue;
+      const workspaceValue = workspaceOverrides.get(`${section}.${key}`);
+      if (workspaceValue !== undefined) return workspaceValue;
       const values = state[section] || {};
       return Object.prototype.hasOwnProperty.call(values, key)
         ? values[key]
@@ -107,19 +116,35 @@ function createMock() {
         defaultValue: section === 'jetbrainsType' ? true : undefined,
         globalValue: values[key],
         workspaceValue: workspaceOverrides.get(`${section}.${key}`),
-        workspaceFolderValue: undefined
+        workspaceFolderValue: scopeKey
+          ? workspaceFolderOverrides.get(`${scopeKey}:${section}.${key}`)
+          : undefined
       };
     },
-    async update(key, value) {
+    async update(key, value, target) {
+      if (target === 3 && scope) {
+        const folderKey = `${scopeKey}:${section}.${key}`;
+        if (value === undefined) workspaceFolderOverrides.delete(folderKey);
+        else workspaceFolderOverrides.set(folderKey, value);
+        updates.push({ section, key, value, target, scope: scopeKey });
+        return;
+      }
+      if (target === 2) {
+        if (value === undefined) workspaceOverrides.delete(`${section}.${key}`);
+        else workspaceOverrides.set(`${section}.${key}`, value);
+        updates.push({ section, key, value, target });
+        return;
+      }
       state[section] = state[section] || {};
       if (value === undefined) {
         delete state[section][key];
       } else {
         state[section][key] = value;
       }
-      updates.push({ section, key, value });
+      updates.push({ section, key, value, target });
     }
-  });
+    };
+  };
 
   const vscode = {
     ConfigurationTarget: { Global: 1, Workspace: 2, WorkspaceFolder: 3 },
@@ -150,8 +175,8 @@ function createMock() {
     },
     workspace: {
       workspaceFolders: [{ uri: { fsPath: '/tmp/project' } }],
-      getConfiguration(section) {
-        return section ? makeConfig(section) : makeRootConfig();
+      getConfiguration(section, scope) {
+        return section ? makeConfig(section, scope) : makeRootConfig();
       }
     },
     window: {
@@ -219,6 +244,7 @@ function createMock() {
     context,
     state,
     workspaceOverrides,
+    workspaceFolderOverrides,
     updates,
     messages,
     errors,
@@ -307,6 +333,21 @@ test('恢复外观：没有历史记录时给出提示', async () => {
   assert.match(mock.messages.at(-1).message, /没有保存过应用前的外观/);
 });
 
+test('恢复外观：保留 null 图标设置，undefined 则删除覆盖', async () => {
+  const { mock } = await setup();
+  delete mock.state.workbench.iconTheme;
+  mock.state.workbench.productIconTheme = null;
+  mock.globalState.set('jetbrainsType.previousLook', {
+    colorTheme: 'Default Dark Modern',
+    productIconTheme: null
+  });
+
+  await mock.handlers.get('jetbrainsType.revertLook')();
+
+  assert.equal('iconTheme' in mock.state.workbench, false);
+  assert.equal(mock.state.workbench.productIconTheme, null);
+});
+
 test('快捷键开关：可以关闭并重新启用', async () => {
   const { mock } = await setup();
   await mock.handlers.get('jetbrainsType.toggleKeymap')();
@@ -316,6 +357,17 @@ test('快捷键开关：可以关闭并重新启用', async () => {
   await mock.handlers.get('jetbrainsType.toggleKeymap')();
   assert.equal(mock.state.jetbrainsType.keymapEnabled, true);
   assert.match(mock.messages.at(-1).message, /已启用 JetBrains 快捷键/);
+});
+
+test('快捷键开关：同步更新 workspaceFolder 覆盖', async () => {
+  const { mock } = await setup();
+  const folderKey = '/tmp/project:jetbrainsType.keymapEnabled';
+  mock.workspaceFolderOverrides.set(folderKey, true);
+
+  await mock.handlers.get('jetbrainsType.toggleKeymap')();
+
+  assert.equal(mock.workspaceFolderOverrides.get(folderKey), false);
+  assert.equal(mock.state.jetbrainsType.keymapEnabled, false);
 });
 
 test('应用外观：工作区覆盖时给出警告', async () => {
@@ -377,6 +429,7 @@ test('界面设置：完整模式应用并备份，随后可恢复', async () =>
   assert.equal(mock.flatSettings['editor.minimap.enabled'], false);
   assert.equal(mock.flatSettings['workbench.tree.indent'], 20);
   assert.equal(mock.flatSettings['workbench.editor.tabSizing'], 'shrink');
+  assert.equal(mock.flatSettings['editor.bracketPairColorization.enabled'], false);
   assert.equal(mock.flatSettings['explorer.compactFolders'], false);
   assert.match(mock.messages.at(-1).message, /已应用 JetBrains 风格 UI 设置/);
 
