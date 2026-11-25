@@ -4,7 +4,7 @@
 
 - **扩展 ID**：`mutao.jetbrains-type`
 - **目录名**：`jetbrains_type`
-- **版本**：`0.4.1`
+- **版本**：`0.4.2`
 - **仓库**：https://github.com/memutao/jetbrains-type
 - **范围**：源码托管在 GitHub，不发布到 Marketplace / Open VSX。
 
@@ -19,6 +19,7 @@
 | 文件图标 | `JetBrains Type File Icons`，68 个 `languageIds`、184 个文件名、175 个扩展名、18 个特殊文件夹 |
 | IDEA 符号图标 | `JetBrains Type UI Icons`，保留 Outline / 面包屑中的 class / method / field 图标 |
 | 快捷键 | 88 组操作、97 条底层绑定，首装即生效；可在设置中整体关闭 |
+| 状态栏入口 | 右下角 `JB Keymap` / `JB Off`，点击切换快捷键；可用 `jetbrainsType.statusBarEnabled` 隐藏 |
 | 一键应用 | 固定应用 New UI 主题、文件图标和产品图标；保存当前外观，支持恢复 |
 | 界面设置 | 可选应用 JetBrains Mono 字体、连字、关闭 minimap、紧凑标签、树缩进、隐藏命令中心/布局按钮等；全部可备份/恢复 |
 | 快捷键速查表 | 内置 Webview，按分类浏览、搜索，同时展示 macOS 与 Windows/Linux 按键 |
@@ -36,18 +37,18 @@ npm run package
 
 ### 安装 VSIX
 
-从 GitHub Releases 下载 `jetbrains-type-0.4.1.vsix`，或在源码目录构建后安装：
+从 GitHub Releases 下载 `jetbrains-type-0.4.2.vsix`，或在源码目录构建后安装：
 
 ```bash
 "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" \
-  --install-extension jetbrains-type-0.4.1.vsix --force
+  --install-extension jetbrains-type-0.4.2.vsix --force
 ```
 
 Cursor 同理：
 
 ```bash
 "/Applications/Cursor.app/Contents/Resources/app/bin/cursor" \
-  --install-extension jetbrains-type-0.4.1.vsix --force
+  --install-extension jetbrains-type-0.4.2.vsix --force
 ```
 
 安装后重载窗口。快捷键会立即参与按键解析，不需要额外激活。
@@ -98,7 +99,7 @@ settings-view-bar-icon
 chat / comment-discussion
 ```
 
-同时保留原有 IDEA 符号图标字体，用于 Outline、面包屑和符号搜索。
+同时保留原有 IDEA 符号图标字体，用于 Outline、面包屑和符号搜索；并补充了 JetBrains New UI 工作台图标（树折叠箭头、关闭、新建、Git 提交/分支、调试控制与刷新，源文件位于 `product-icons/ui/`）。
 
 ## 文件图标
 
@@ -125,23 +126,28 @@ chat / comment-discussion
 完整模式包含：
 
 ```text
-editor.fontFamily                    JetBrains Mono + 系统等宽字体回退
-editor.fontLigatures                 true
-editor.minimap.enabled               false
-editor.renderWhitespace              selection
-editor.cursorBlinking                smooth
-editor.smoothScrolling               true
-workbench.list.smoothScrolling       true
-workbench.tree.indent                20
-workbench.tree.renderIndentGuides    onHover
-workbench.editor.tabSizing           shrink
-workbench.editor.tabCloseButton      right
-workbench.editor.enablePreview       false
-window.commandCenter                 false
-workbench.layoutControl.enabled      false
-explorer.compactFolders              false
-editor.bracketPairColorization       false
-editor.guides.bracketPairs           active
+editor.fontFamily                      JetBrains Mono + 系统等宽字体回退
+editor.fontLigatures                   true
+editor.minimap.enabled                 false
+editor.renderWhitespace                selection
+editor.cursorBlinking                  smooth
+editor.smoothScrolling                 true
+editor.stickyScroll.enabled            true
+workbench.list.smoothScrolling         true
+workbench.tree.indent                  20
+workbench.tree.renderIndentGuides      onHover
+workbench.editor.tabSizing             shrink
+workbench.editor.tabCloseButton        right
+workbench.editor.highlightModifiedTabs true
+workbench.editor.enablePreview         false
+workbench.activityBar.location         default
+window.commandCenter                   false
+workbench.layoutControl.enabled        false
+explorer.compactFolders                false
+editor.bracketPairColorization.enabled false
+editor.guides.bracketPairs             active
+editor.occurrencesHighlight            singleFile
+editor.selectionHighlight              true
 ```
 
 应用前会备份原始值；运行 **JetBrains Type: 恢复界面设置** 还原。
@@ -193,6 +199,18 @@ editor.guides.bracketPairs           active
 - **`Cmd+[` / `Cmd+]` 是后退 / 前进**；缩进使用 `Tab` / `Shift+Tab`。
 - **`F1` 在编辑器内是快速文档**；命令面板使用 `Shift+Cmd+A`。
 - `Ctrl+Space`、`Ctrl+←/→` 可能与 macOS 系统快捷键冲突，可在系统设置或 Keyboard Shortcuts 中调整。
+
+### 状态栏与首次引导
+
+右下角状态栏会显示 `JB Keymap`（快捷键已启用）或 `JB Off`（已关闭），点击即可切换。可在设置中关闭：
+
+```text
+jetbrainsType.statusBarEnabled = false
+```
+
+首次安装/激活会提示一次是否应用 New UI 外观，使用 `jetbrainsType.hasPromptedLook` 记录，之后不会重复提示。
+
+> 为显示状态栏和首次引导，扩展会在 VS Code 启动完成后激活；如果更在意启动速度，可关闭状态栏设置，但扩展的启动激活仍然存在。
 
 ## Top 10 调研摘要
 
@@ -251,7 +269,7 @@ npm run check
 npm run package
 ```
 
-检查内容包括主题、图标、字体、快捷键同步、命令/设置、许可证和 16 个单元测试。
+检查内容包括主题、图标、字体、快捷键同步、命令/设置、许可证和 22 个单元测试。
 
 ## 与参考插件的关系
 
@@ -272,7 +290,7 @@ npm run package
 
 **为什么只有一个主题？**
 
-0.4.1 继续对齐 JetBrains New UI：活动栏优先使用官方 SVG，并补齐 VS Code 1.146 的 Chat、Inline Chat、Testing、SCM Graph 等颜色。若要浅色主题需要单独补一套 New UI Light 配色与文件图标。
+0.4.2 继续对齐 JetBrains New UI：标签指示条移至底部、活动栏选中态改为柔和蓝灰底块、速查表升级为 New UI Dark 交互面板，并补充工作台 UI 图标与状态栏快捷键入口。若要浅色主题需要单独补一套 New UI Light 配色与文件图标。
 
 **活动栏图标没有变化？**
 

@@ -17,7 +17,8 @@ if (!Array.isArray(groups) || groups.length === 0) {
 
 const gate = 'config.jetbrainsType.keymapEnabled';
 const keybindings = [];
-const seen = new Set();
+const seenWin = new Set();
+const seenMac = new Set();
 const categories = [];
 
 for (const [groupIndex, group] of groups.entries()) {
@@ -45,11 +46,16 @@ for (const [groupIndex, group] of groups.entries()) {
     const key = binding.key || group.key;
     const mac = binding.mac || group.mac;
     const when = binding.when ? `${gate} && (${binding.when})` : gate;
-    const dedupeKey = `${key}|${mac}|${when}`;
-    if (seen.has(dedupeKey)) {
-      throw new Error(`Duplicate keybinding for ${group.title}: ${dedupeKey}`);
+    const winKey = `${key}|${when}`;
+    const macKey = `${mac}|${when}`;
+    if (seenWin.has(winKey)) {
+      throw new Error(`Duplicate Windows/Linux keybinding for ${group.title}: ${winKey}`);
     }
-    seen.add(dedupeKey);
+    if (seenMac.has(macKey)) {
+      throw new Error(`Duplicate macOS keybinding for ${group.title}: ${macKey}`);
+    }
+    seenWin.add(winKey);
+    seenMac.add(macKey);
 
     const entry = { key, mac, command: binding.command, when };
     if (binding.args !== undefined) {

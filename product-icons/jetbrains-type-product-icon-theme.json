@@ -183,6 +183,78 @@
     "settings-view-bar-icon": {
       "fontCharacter": "\\E926",
       "fontId": "jetbrains-type-activity-icons"
+    },
+    "chevron-right": {
+      "fontCharacter": "\\E928",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "chevron-down": {
+      "fontCharacter": "\\E929",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "chevron-up": {
+      "fontCharacter": "\\E92A",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "chevron-left": {
+      "fontCharacter": "\\E92B",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "close": {
+      "fontCharacter": "\\E92C",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "add": {
+      "fontCharacter": "\\E92D",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "git-branch": {
+      "fontCharacter": "\\E922",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "git-commit": {
+      "fontCharacter": "\\E92E",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "refresh": {
+      "fontCharacter": "\\E92F",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-restart": {
+      "fontCharacter": "\\E92F",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-start": {
+      "fontCharacter": "\\E923",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "play": {
+      "fontCharacter": "\\E923",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-step-over": {
+      "fontCharacter": "\\E930",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-step-into": {
+      "fontCharacter": "\\E931",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-step-out": {
+      "fontCharacter": "\\E932",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-pause": {
+      "fontCharacter": "\\E933",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-stop": {
+      "fontCharacter": "\\E934",
+      "fontId": "jetbrains-type-activity-icons"
+    },
+    "debug-continue": {
+      "fontCharacter": "\\E935",
+      "fontId": "jetbrains-type-activity-icons"
     }
   }
 }

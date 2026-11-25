@@ -8,8 +8,10 @@ const THEME_LABEL = 'JetBrains Type New UI Dark';
 const FILE_ICON_THEME_ID = 'jetbrains-type-file-icons';
 const PRODUCT_ICON_THEME_ID = 'jetbrains-type-idea-icons';
 const PREVIOUS_LOOK_KEY = 'jetbrainsType.previousLook';
+const PROMPTED_LOOK_KEY = 'jetbrainsType.hasPromptedLook';
 const UI_SETTINGS_BACKUP_KEY = 'jetbrainsType.previousUiSettings';
 const KEYMAP_SETTING = 'keymapEnabled';
+const STATUS_BAR_SETTING = 'statusBarEnabled';
 const FONT_DOWNLOAD_URL = 'https://www.jetbrains.com/lp/mono/';
 const FONT_FAMILY = "'JetBrains Mono', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace";
 const FONT_SETTING_KEYS = ['editor.fontFamily', 'editor.fontLigatures'];
@@ -20,6 +22,7 @@ const UI_SETTINGS = {
   'editor.renderWhitespace': 'selection',
   'editor.cursorBlinking': 'smooth',
   'editor.smoothScrolling': true,
+  'editor.stickyScroll.enabled': true,
   'workbench.list.smoothScrolling': true,
   'workbench.tree.indent': 20,
   'workbench.tree.renderIndentGuides': 'onHover',
@@ -27,6 +30,7 @@ const UI_SETTINGS = {
   'workbench.editor.tabCloseButton': 'right',
   'workbench.editor.highlightModifiedTabs': true,
   'workbench.editor.enablePreview': false,
+  'workbench.activityBar.location': 'default',
   'window.commandCenter': false,
   'workbench.layoutControl.enabled': false,
   'explorer.compactFolders': false,
@@ -43,6 +47,7 @@ const FONT_SETTINGS = Object.fromEntries(
 );
 
 let cheatSheetPanel;
+let statusBarItem;
 
 const CATEGORY_ORDER = [
   '通用',
@@ -71,6 +76,27 @@ function activate(context) {
   for (const [id, handler] of commands) {
     context.subscriptions.push(vscode.commands.registerCommand(id, handler));
   }
+
+  if (typeof vscode.window.createStatusBarItem === 'function') {
+    const alignment = vscode.StatusBarAlignment?.Right ?? 2;
+    statusBarItem = vscode.window.createStatusBarItem(alignment, 100);
+    statusBarItem.command = 'jetbrainsType.toggleKeymap';
+    context.subscriptions.push(statusBarItem);
+    updateStatusBar();
+  }
+
+  if (typeof vscode.workspace.onDidChangeConfiguration === 'function') {
+    context.subscriptions.push(
+      vscode.workspace.onDidChangeConfiguration((event) => {
+        if (event.affectsConfiguration('jetbrainsType')) {
+          updateStatusBar();
+          syncCheatSheetKeymapState();
+        }
+      })
+    );
+  }
+
+  void maybePromptInitialLook(context);
 }
 
 function deactivate() {
@@ -79,6 +105,71 @@ function deactivate() {
     cheatSheetPanel = undefined;
     panel.dispose();
   }
+  if (statusBarItem) {
+    const item = statusBarItem;
+    statusBarItem = undefined;
+    item.dispose();
+  }
+}
+
+function updateStatusBar() {
+  if (!statusBarItem) {
+    return;
+  }
+  const config = typeConfig();
+  const visible = config.get(STATUS_BAR_SETTING, true);
+  if (!visible) {
+    statusBarItem.hide();
+    return;
+  }
+  const enabled = config.get(KEYMAP_SETTING, true);
+  statusBarItem.text = enabled ? '$(keyboard) JB Keymap' : '$(keyboard) JB Off';
+  statusBarItem.tooltip = enabled
+    ? 'JetBrains Type：快捷键已启用（点击关闭）'
+    : 'JetBrains Type：快捷键已关闭（点击启用）';
+  statusBarItem.show();
+}
+
+function syncCheatSheetKeymapState() {
+  if (!cheatSheetPanel) {
+    return;
+  }
+  try {
+    void cheatSheetPanel.webview.postMessage({
+      type: 'keymapState',
+      enabled: typeConfig().get(KEYMAP_SETTING, true)
+    });
+  } catch {
+    // Ignore if webview is already disposing.
+  }
+}
+
+async function maybePromptInitialLook(context) {
+  if (
+    context.globalState.get(PROMPTED_LOOK_KEY) ||
+    context.globalState.get(PREVIOUS_LOOK_KEY)
+  ) {
+    return;
+  }
+  await context.globalState.update(PROMPTED_LOOK_KEY, true);
+  if (currentLook().colorTheme === THEME_LABEL) {
+    return;
+  }
+  void vscode.window
+    .showInformationMessage(
+      'JetBrains Type 已就绪（快捷键已默认启用）。是否立即应用 New UI 深色主题与 JetBrains 图标？',
+      '立即应用外观',
+      '快捷键速查表'
+    )
+    .then((choice) => {
+      if (choice === '立即应用外观') {
+        return applyLook(context);
+      }
+      if (choice === '快捷键速查表') {
+        showCheatSheet(context);
+      }
+      return undefined;
+    });
 }
 
 function workbenchConfig() {
@@ -92,9 +183,9 @@ function typeConfig() {
 function currentLook() {
   const config = workbenchConfig();
   return {
-    colorTheme: config.get('colorTheme'),
-    iconTheme: config.get('iconTheme'),
-    productIconTheme: config.get('productIconTheme')
+    colorTheme: config.inspect('colorTheme')?.globalValue,
+    iconTheme: config.inspect('iconTheme')?.globalValue,
+    productIconTheme: config.inspect('productIconTheme')?.globalValue
   };
 }
 
@@ -180,11 +271,11 @@ async function revertLook(context) {
   vscode.window.showInformationMessage('JetBrains Type：已恢复应用前的外观。');
 }
 
-async function openKeybindings() {
+async function openKeybindings(query = `@ext:${EXTENSION_ID}`) {
   try {
     await vscode.commands.executeCommand(
       'workbench.action.openGlobalKeybindings',
-      `@ext:${EXTENSION_ID}`
+      query
     );
   } catch {
     await vscode.commands.executeCommand('workbench.action.openGlobalKeybindings');
@@ -226,6 +317,9 @@ async function toggleKeymap() {
     );
     return;
   }
+
+  updateStatusBar();
+  syncCheatSheetKeymapState();
 
   vscode.window.showInformationMessage(
     enabled
@@ -356,6 +450,7 @@ async function revertUiSettings(context) {
 
   const allowedKeys = new Set(Object.keys(UI_SETTINGS));
   const failed = [];
+  const remainingBackup = {};
   for (const [key, saved] of Object.entries(previous)) {
     if (!allowedKeys.has(key)) {
       continue;
@@ -369,10 +464,14 @@ async function revertUiSettings(context) {
       );
     } catch {
       failed.push(key);
+      remainingBackup[key] = saved;
     }
   }
 
-  await context.globalState.update(UI_SETTINGS_BACKUP_KEY, undefined);
+  await context.globalState.update(
+    UI_SETTINGS_BACKUP_KEY,
+    Object.keys(remainingBackup).length > 0 ? remainingBackup : undefined
+  );
 
   if (failed.length > 0) {
     vscode.window.showErrorMessage(
@@ -395,6 +494,7 @@ function showCheatSheet(context) {
   if (cheatSheetPanel) {
     try {
       cheatSheetPanel.reveal(vscode.ViewColumn.Active);
+      syncCheatSheetKeymapState();
       return;
     } catch {
       // The panel may have been disposed by the window while this reference
@@ -420,7 +520,24 @@ function showCheatSheet(context) {
   }
 
   cheatSheetPanel = panel;
-  panel.webview.html = buildCheatSheetHtml(keymapGroups, process.platform);
+  const enabled = typeConfig().get(KEYMAP_SETTING, true);
+  panel.webview.html = buildCheatSheetHtml(keymapGroups, process.platform, enabled);
+
+  if (typeof panel.webview.onDidReceiveMessage === 'function') {
+    panel.webview.onDidReceiveMessage((message) => {
+      if (!message || typeof message !== 'object') {
+        return;
+      }
+      if (message.type === 'toggleKeymap') {
+        void toggleKeymap();
+        return;
+      }
+      if (message.type === 'openKeybinding' && typeof message.command === 'string' && message.command) {
+        void openKeybindings(message.command);
+      }
+    });
+  }
+
   panel.onDidDispose(() => {
     if (cheatSheetPanel === panel) {
       cheatSheetPanel = undefined;
@@ -499,7 +616,7 @@ function keycaps(combo, platform, label) {
   return `<span class="key-group"><span class="platform-label">${escapeHtml(label)}</span>${html}</span>`;
 }
 
-function buildCheatSheetHtml(groups, platform) {
+function buildCheatSheetHtml(groups, platform, keymapEnabled = true) {
   const nonce = createNonce();
   const categoryOrder = [
     ...CATEGORY_ORDER,
@@ -525,12 +642,14 @@ function buildCheatSheetHtml(groups, platform) {
           ]
             .join(' ')
             .toLowerCase();
+          const primaryCommand = group.bindings[0]?.command || '';
+          const commandLabel = group.bindings.map((binding) => binding.command).join(' · ');
           return `
             <article class="shortcut" data-search="${escapeHtml(search)}">
               <div class="action">
                 <div class="title">${escapeHtml(group.title)}</div>
                 ${group.note ? `<div class="note">${escapeHtml(group.note)}</div>` : ''}
-                <div class="command">${escapeHtml(group.bindings.map((binding) => binding.command).join(' · '))}</div>
+                <button class="command-btn" type="button" data-command="${escapeHtml(primaryCommand)}" title="在快捷键设置中定位该命令">${escapeHtml(commandLabel)}</button>
               </div>
               <div class="keys">${keycaps(group.mac, 'darwin', 'macOS')}${keycaps(group.key, 'win32', 'Win / Linux')}</div>
             </article>`;
@@ -553,6 +672,9 @@ function buildCheatSheetHtml(groups, platform) {
     })
     .join('');
 
+  const statusText = keymapEnabled ? '快捷键：已启用' : '快捷键：已关闭';
+  const statusClass = keymapEnabled ? 'badge active' : 'badge inactive';
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -563,22 +685,24 @@ function buildCheatSheetHtml(groups, platform) {
   <style nonce="${nonce}">
     :root {
       color-scheme: dark;
-      --bg: #2b2b2b;
-      --panel: #3c3f41;
-      --panel-2: #313335;
-      --border: #323232;
-      --line: #45494a;
-      --fg: #a9b7c6;
-      --muted: #808080;
-      --bright: #e6e1e1;
-      --orange: #cc7832;
-      --yellow: #ffc66d;
-      --green: #6a8759;
-      --blue: #6897bb;
-      --purple: #9876aa;
-      --accent: #4b6eaf;
+      --bg: #1e1f22;
+      --panel: #2b2d30;
+      --panel-2: #222428;
+      --panel-alt: #26282e;
+      --border: #393b40;
+      --line: #43454a;
+      --fg: #bcbec4;
+      --muted: #7a7e85;
+      --bright: #dfe1e5;
+      --orange: #cf8e6d;
+      --yellow: #d6ae58;
+      --green: #6aab73;
+      --blue: #56a8f5;
+      --purple: #b589ec;
+      --accent: #3574f0;
+      --sel: #2e436e;
       --error: #ff6b68;
-      --mono: "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -594,14 +718,21 @@ function buildCheatSheetHtml(groups, platform) {
       position: sticky;
       top: 0;
       z-index: 5;
-      padding: 22px 28px 14px;
-      background: linear-gradient(180deg, #3c3f41 0%, #3c3f41f2 78%, #3c3f4100 100%);
+      padding: 20px 28px 14px;
+      background: linear-gradient(180deg, #2b2d30 0%, #2b2d30f5 84%, #2b2d30e8 100%);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+    }
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
     .eyebrow {
-      margin: 0 0 5px;
-      color: var(--orange);
+      margin: 0 0 4px;
+      color: var(--blue);
       font: 600 10px/1.4 var(--mono);
       letter-spacing: .16em;
       text-transform: uppercase;
@@ -609,11 +740,57 @@ function buildCheatSheetHtml(groups, platform) {
     h1 {
       margin: 0;
       color: var(--bright);
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 650;
       letter-spacing: -.015em;
     }
-    .subtitle { margin: 5px 0 15px; color: var(--muted); }
+    .status-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font: 500 11px/1.3 var(--mono);
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+    .badge.active {
+      border-color: #3574f066;
+      background: #25324d;
+      color: var(--bright);
+    }
+    .badge.active::before { background: var(--green); }
+    .badge.inactive {
+      border-color: #d6ae5855;
+      background: #3d322380;
+      color: var(--yellow);
+    }
+    .badge.inactive::before { background: var(--yellow); }
+    .toggle-btn {
+      padding: 5px 11px;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+      font: 500 11px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: background .12s ease, border-color .12s ease;
+    }
+    .toggle-btn:hover { background: #467ff2; border-color: #467ff2; }
+    .subtitle { margin: 5px 0 14px; color: var(--muted); }
     .subtitle strong { color: var(--blue); font-weight: 500; }
     .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .search {
@@ -621,38 +798,38 @@ function buildCheatSheetHtml(groups, platform) {
       min-width: 220px;
       padding: 8px 11px;
       color: var(--bright);
-      background: #2b2b2b;
+      background: var(--bg);
       border: 1px solid var(--line);
-      border-radius: 4px;
+      border-radius: 6px;
       font: 12px var(--mono);
       outline: none;
     }
     .search:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-    .search::placeholder { color: #6b6b6b; }
+    .search::placeholder { color: #6f737a; }
     .hint { color: var(--muted); font-size: 11px; }
     .hint kbd { font-size: 10px; }
     .nav { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
     .nav-chip {
       color: var(--fg);
       text-decoration: none;
-      background: #2b2b2b;
-      border: 1px solid var(--line);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 2px 9px;
+      padding: 2px 10px;
       font-size: 11px;
-      transition: border-color .12s ease, color .12s ease;
+      transition: border-color .12s ease, color .12s ease, background .12s ease;
     }
     .nav-chip span { color: var(--muted); margin-left: 3px; }
-    .nav-chip:hover { border-color: var(--accent); color: var(--bright); }
+    .nav-chip:hover { border-color: var(--accent); background: var(--sel); color: #ffffff; }
     main { max-width: 1180px; margin: 0 auto; padding: 10px 28px 60px; }
-    .section { margin-top: 26px; scroll-margin-top: 170px; }
+    .section { margin-top: 26px; scroll-margin-top: 176px; }
     .section h2 {
       display: flex;
       align-items: center;
       gap: 8px;
       margin: 0 0 8px;
       padding-bottom: 7px;
-      color: var(--yellow);
+      color: var(--bright);
       border-bottom: 1px solid var(--border);
       font-size: 13px;
       font-weight: 600;
@@ -662,7 +839,7 @@ function buildCheatSheetHtml(groups, platform) {
       content: "";
       width: 3px;
       height: 13px;
-      background: var(--orange);
+      background: var(--accent);
       border-radius: 2px;
     }
     .count {
@@ -671,50 +848,58 @@ function buildCheatSheetHtml(groups, platform) {
       font: 10px var(--mono);
       font-weight: 400;
     }
-    .rows { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .rows { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--panel); }
     .shortcut {
       display: grid;
       grid-template-columns: minmax(260px, 1fr) auto;
       gap: 16px;
       align-items: center;
-      padding: 10px 13px;
+      padding: 10px 14px;
       background: var(--panel-2);
       border-bottom: 1px solid var(--border);
+      transition: background .1s ease;
     }
-    .shortcut:nth-child(even) { background: #2f3133; }
+    .shortcut:nth-child(even) { background: var(--panel-alt); }
     .shortcut:last-child { border-bottom: 0; }
-    .shortcut:hover { background: #373a3c; }
+    .shortcut:hover { background: #2b2d30; }
     .action { min-width: 0; }
     .title { color: var(--bright); font-weight: 500; }
     .note { margin-top: 2px; color: var(--muted); font-size: 11px; }
-    .command {
-      margin-top: 3px;
+    .command-btn {
+      margin-top: 4px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      max-width: 100%;
       overflow: hidden;
-      color: #6f7376;
+      color: #6f737a;
       font: 10px/1.4 var(--mono);
+      text-align: left;
       text-overflow: ellipsis;
       white-space: nowrap;
+      cursor: pointer;
     }
+    .command-btn:hover { color: var(--blue); text-decoration: underline; }
     .keys { display: flex; gap: 18px; align-items: flex-start; }
     .key-group { display: flex; flex-direction: column; gap: 3px; }
     .platform-label {
-      color: #6f7376;
+      color: #6f737a;
       font: 9px/1.2 var(--mono);
       letter-spacing: .04em;
       text-transform: uppercase;
     }
     kbd {
       display: inline-block;
-      min-width: 18px;
+      min-width: 20px;
       margin: 1px 2px 0 0;
-      padding: 1px 5px;
+      padding: 2px 6px;
       color: var(--bright);
-      background: #2b2b2b;
-      border: 1px solid #555;
-      border-bottom-color: #666;
-      border-radius: 3px;
-      box-shadow: 0 1px 0 #191919;
-      font: 11px/1.5 var(--mono);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-bottom-color: #5a5d63;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 #141517;
+      font: 11px/1.45 var(--mono);
       text-align: center;
       white-space: nowrap;
     }
@@ -740,16 +925,24 @@ function buildCheatSheetHtml(groups, platform) {
       main, footer { padding-left: 16px; padding-right: 16px; }
       .shortcut { grid-template-columns: 1fr; gap: 7px; }
       .keys { gap: 22px; }
-      .command { display: none; }
+      .command-btn { display: none; }
     }
   </style>
 </head>
 <body>
   <header class="hero">
-    <p class="eyebrow">JetBrains Type / Shortcut Reference</p>
-    <h1>快捷键速查表</h1>
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">JetBrains Type / New UI Dark · Shortcut Reference</p>
+        <h1>快捷键速查表</h1>
+      </div>
+      <div class="status-wrap">
+        <span id="keymap-badge" class="${statusClass}">${escapeHtml(statusText)}</span>
+        <button id="toggle-keymap" class="toggle-btn" type="button">切换开关</button>
+      </div>
+    </div>
     <p class="subtitle">
-      ${groups.length} 组操作，${totalBindings} 条底层绑定。当前平台：<strong>${escapeHtml(platform === 'darwin' ? 'macOS' : platform)}</strong>。
+      ${groups.length} 组操作，${totalBindings} 条底层绑定。当前平台：<strong>${escapeHtml(platform === 'darwin' ? 'macOS' : platform)}</strong>。点击任意命令 ID 可直达快捷键设置。
     </p>
     <div class="toolbar">
       <input id="search" class="search" type="search" placeholder="搜索操作、命令或按键…" autocomplete="off" spellcheck="false" />
@@ -763,14 +956,17 @@ function buildCheatSheetHtml(groups, platform) {
   </main>
   <footer>
     快捷键总开关：设置 <code>jetbrainsType.keymapEnabled</code>。关闭后立即恢复 VS Code 默认快捷键。
-    主题固定为 JetBrains Type New UI Dark；字体、minimap、标签和树缩进等通过 “应用 JetBrains 风格界面设置” 配置。
+    主题固定为 JetBrains Type New UI Dark；字体、minimap、标签、Sticky Scroll 和树缩进等通过 “应用 JetBrains 风格界面设置” 配置。
   </footer>
   <script nonce="${nonce}">
     (() => {
+      const vscodeApi = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : null;
       const input = document.getElementById('search');
       const rows = Array.from(document.querySelectorAll('.shortcut'));
       const sections = Array.from(document.querySelectorAll('.section'));
       const empty = document.getElementById('empty');
+      const badge = document.getElementById('keymap-badge');
+      const toggleBtn = document.getElementById('toggle-keymap');
 
       const applyFilter = () => {
         const query = input.value.trim().toLowerCase();
@@ -787,6 +983,26 @@ function buildCheatSheetHtml(groups, platform) {
       };
 
       input.addEventListener('input', applyFilter);
+      if (toggleBtn && vscodeApi) {
+        toggleBtn.addEventListener('click', () => {
+          vscodeApi.postMessage({ type: 'toggleKeymap' });
+        });
+      }
+      for (const btn of document.querySelectorAll('.command-btn')) {
+        btn.addEventListener('click', () => {
+          const command = btn.getAttribute('data-command');
+          if (command && vscodeApi) {
+            vscodeApi.postMessage({ type: 'openKeybinding', command });
+          }
+        });
+      }
+      window.addEventListener('message', (event) => {
+        const msg = event.data;
+        if (msg && msg.type === 'keymapState' && badge) {
+          badge.textContent = msg.enabled ? '快捷键：已启用' : '快捷键：已关闭';
+          badge.className = msg.enabled ? 'badge active' : 'badge inactive';
+        }
+      });
       document.addEventListener('keydown', (event) => {
         if (event.key === '/' && document.activeElement !== input) {
           event.preventDefault();

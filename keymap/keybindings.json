@@ -524,7 +524,7 @@
     "category": "导航",
     "title": "上一个拆分编辑器组",
     "key": "shift+alt+tab",
-    "mac": "alt+tab",
+    "mac": "shift+alt+tab",
     "bindings": [
       { "command": "workbench.action.focusPreviousGroup", "when": "multipleEditorGroups" }
     ]

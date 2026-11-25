@@ -28,9 +28,9 @@ The following icons were drawn for this local extension and are covered by this 
 
 The activity-bar Chat bubble (`product-icons/activity/chat.svg`) is also original and MIT licensed. The other activity-bar SVGs use the JetBrains Apache-2.0 sources described below.
 
-## JetBrains New UI activity icons
+## JetBrains New UI activity and UI icons
 
-`product-icons/activity/project.svg`, `search.svg`, `vcs.svg`, `run.svg`, `plugin.svg`, `user.svg`, and `settings.svg` are from the IntelliJ Platform New UI (`expui`) icon set:
+`product-icons/activity/project.svg`, `search.svg`, `vcs.svg`, `run.svg`, `plugin.svg`, `user.svg`, `settings.svg` and the workbench UI icons in `product-icons/ui/` (`chevron-right.svg`, `chevron-down.svg`, `chevron-up.svg`, `chevron-left.svg`, `close.svg`, `add.svg`, `git-commit.svg`, `debug-restart.svg`, `debug-step-over.svg`, `debug-step-into.svg`, `debug-step-out.svg`, `debug-pause.svg`, `debug-stop.svg`, `debug-continue.svg`) are from the IntelliJ Platform New UI (`expui`) icon set:
 
 - Copyright 2000–2025 JetBrains s.r.o. and contributors
 - License: Apache License 2.0

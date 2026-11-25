@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.2 — 2026-11-25
+
+- **New UI Dark 风格精修**：标签栏统一 `#1E1F22` 画布并将激活指示蓝条移至底部（`tab.activeBorder`），活动栏选中态改为柔和蓝灰底块（`#2E436E`），弱化多余标签分割线与悬停边框。
+- **快捷键速查表升级**：从旧 Darcula 配色全面切换为 New UI Dark；顶部实时显示快捷键启用状态并提供「切换开关」按钮，点击命令 ID 可直接跳转快捷键设置。
+- **工作台 UI 图标扩展**：从 JetBrains New UI (`expui`, Apache-2.0) 补充树折叠箭头、关闭、新建、Git 提交/分支、调试控制与刷新图标映射（`product-icons/ui/`），并从 VSIX 打包中排除 SVG 源文件。
+- **UI 设置与易用性**：`UI_SETTINGS` 新增 `editor.stickyScroll.enabled` 与 `workbench.activityBar.location`；新增右下角状态栏快捷键开关指示器（可通过 `jetbrainsType.statusBarEnabled` 关闭）及首次安装轻引导。
+- **Bug 修复**：修正 macOS「上一个拆分编辑器组」与「下一个拆分编辑器组」同为 `alt+tab` 的冲突（改用 `shift+alt+tab`）；同步脚本与校验脚本改为分平台判重；`applyLook` 改用 `inspect()` 仅备份全局值；`revertUiSettings` 部分恢复失败时保留失败项备份以便重试。
+- 单元测试增至 22 个。
+
+
 ## 0.4.1 — 2026-11-25
 
 - 修复 `toggleKeymap` 忽略 `workspaceFolder` 覆盖的问题，并同步更新文件夹级设置。

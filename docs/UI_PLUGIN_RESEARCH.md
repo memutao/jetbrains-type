@@ -40,10 +40,10 @@
 6. **设置需要可逆**：字体包提供激活/停用；主题用户也会同时改字体、缩进、minimap。只改不还原会造成负担。
 7. **许可证差异很大**：Top 10 里既有 MIT，也有 GPL 和无明确许可证的项目；不能只看安装量。
 
-## 0.4.1 当前实现
+## 0.4.2 当前实现
 
 - **单一 New UI 主题**：保留 `JetBrains Type New UI Dark`，移除经典 Darcula 主题和主题选择命令，减少维护面。
-- **活动栏图标**：优先使用 JetBrains New UI 官方工具窗口 SVG（Apache-2.0）生成独立 WOFF：Project、Search、VCS、Run、Plugin、User、Settings。只有 Chat 没有对应图标，继续自绘。
+- **活动栏与工作台图标**：优先使用 JetBrains New UI 官方工具窗口/工作台 SVG（Apache-2.0）生成独立 WOFF：Project、Search、VCS、Run、Plugin、User、Settings，以及 chevron、close、add、git-commit、debug 控制图标。只有 Chat 没有对应图标，继续自绘。
 - **可选 UI 设置**：
   - 完整模式：字体族、连字、关闭 minimap、选区空白、平滑滚动、树缩进、tab 收缩、关闭预览、隐藏命令中心/布局按钮、单色括号等；
   - 仅字体模式：只改 `editor.fontFamily` / `editor.fontLigatures`；
@@ -54,6 +54,7 @@
 - **语义高亮补齐**：Python/C/C++/CMake 等常用语义 token，以及 `class.builtin`、`function.builtin`、`variable.constant` 等。
 - **保持键位克制**：不盲目复制 150 条旧绑定；继续使用 97 条经过验证的绑定，避免失效命令和冲突。
 - **0.4.1 修正**：快捷键开关同步处理 workspaceFolder 覆盖；外观恢复区分 `null` 与 `undefined`；VSIX 排除文档与 SVG 源文件。
+- **0.4.2 增强**：New UI 标签/活动栏精修；速查表改为 New UI Dark 并支持切换/定位命令；状态栏快捷键入口；首次应用外观引导；22 个单元测试。
 - **2025.3.5 校准**：本机 IntelliJ 2025.3.5 的 `expui` 活动栏 SVG 哈希未变；按其 `expUI_dark` scheme 校准行号、当前行、空白符、缩进线和 Git 新增色，并补充 VS Code 1.146 新颜色键。
 
 ## 没有吸收的部分

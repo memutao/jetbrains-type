@@ -77,7 +77,7 @@ check(/^\d+\.\d+\.\d+$/.test(manifest.version || ''), 'package.json version must
 const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
 check(!readme.includes('/Users/'), 'README.md contains a local absolute path.');
 const ignoreFile = fs.readFileSync(path.join(root, '.vscodeignore'), 'utf8');
-for (const pattern of ['docs/**', 'product-icons/activity/**']) {
+for (const pattern of ['docs/**', 'product-icons/activity/**', 'product-icons/ui/**']) {
   check(ignoreFile.includes(pattern), `.vscodeignore must exclude ${pattern}.`);
 }
 
@@ -216,6 +216,30 @@ if (productContribution) {
       check(/Apache (License )?2\.0/.test(text), `JetBrains activity icon source has no Apache-2.0 header: ${source}`);
     }
   }
+  const uiSources = [
+    'chevron-right.svg',
+    'chevron-down.svg',
+    'chevron-up.svg',
+    'chevron-left.svg',
+    'close.svg',
+    'add.svg',
+    'git-commit.svg',
+    'debug-restart.svg',
+    'debug-step-over.svg',
+    'debug-step-into.svg',
+    'debug-step-out.svg',
+    'debug-pause.svg',
+    'debug-stop.svg',
+    'debug-continue.svg'
+  ];
+  for (const source of uiSources) {
+    const sourcePath = path.join('product-icons', 'ui', source);
+    check(exists(sourcePath), `JetBrains UI icon source is missing: ${source}`);
+    if (exists(sourcePath)) {
+      const text = fs.readFileSync(path.join(root, sourcePath), 'utf8');
+      check(/Apache (License )?2\.0/.test(text), `JetBrains UI icon source has no Apache-2.0 header: ${source}`);
+    }
+  }
   for (const [name, definition] of Object.entries(theme.iconDefinitions || {})) {
     check(Boolean(definition.fontCharacter), `product icon definition ${name} has no fontCharacter.`);
     if (definition.fontId) {
@@ -279,11 +303,15 @@ for (const binding of expectedKeybindings) {
   );
 }
 
-const seen = new Set();
+const seenWin = new Set();
+const seenMac = new Set();
 for (const binding of expectedKeybindings) {
-  const signature = `${binding.key}|${binding.mac}|${binding.when}`;
-  check(!seen.has(signature), `duplicate keybinding: ${signature}`);
-  seen.add(signature);
+  const winSignature = `${binding.key}|${binding.when}`;
+  const macSignature = `${binding.mac}|${binding.when}`;
+  check(!seenWin.has(winSignature), `duplicate Windows/Linux keybinding: ${winSignature}`);
+  check(!seenMac.has(macSignature), `duplicate macOS keybinding: ${macSignature}`);
+  seenWin.add(winSignature);
+  seenMac.add(macSignature);
 }
 
 for (const command of manifest.contributes?.commands || []) {
@@ -311,6 +339,11 @@ const configKey = manifest.contributes?.configuration?.properties?.['jetbrainsTy
 check(Boolean(configKey), 'jetbrainsType.keymapEnabled setting is missing.');
 check(configKey?.default === true, 'jetbrainsType.keymapEnabled must default to true.');
 check(configKey?.type === 'boolean', 'jetbrainsType.keymapEnabled must be a boolean.');
+
+const statusBarKey = manifest.contributes?.configuration?.properties?.['jetbrainsType.statusBarEnabled'];
+check(Boolean(statusBarKey), 'jetbrainsType.statusBarEnabled setting is missing.');
+check(statusBarKey?.default === true, 'jetbrainsType.statusBarEnabled must default to true.');
+check(statusBarKey?.type === 'boolean', 'jetbrainsType.statusBarEnabled must be a boolean.');
 
 check(exists('docs/UI_PLUGIN_RESEARCH.md'), 'docs/UI_PLUGIN_RESEARCH.md is missing.');
 

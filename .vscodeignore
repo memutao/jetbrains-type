@@ -7,3 +7,4 @@ node_modules/**
 *.vsix
 docs/**
 product-icons/activity/**
+product-icons/ui/**

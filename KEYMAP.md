@@ -80,7 +80,7 @@
 | 最近编辑位置 | `cmd+shift+backspace` | `ctrl+shift+backspace` |  |
 | 上一个编辑器 | `ctrl+left` | `ctrl+left` |  |
 | 下一个编辑器 | `ctrl+right` | `ctrl+right` |  |
-| 上一个拆分编辑器组 | `alt+tab` | `shift+alt+tab` |  |
+| 上一个拆分编辑器组 | `shift+alt+tab` | `shift+alt+tab` |  |
 | 下一个拆分编辑器组 | `alt+tab` | `alt+tab` |  |
 
 ## 代码智能
